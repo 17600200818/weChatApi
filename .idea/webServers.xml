@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ccf22428-8dff-4ab3-bdb2-956260a280d2" name="thinkapi" url="http://119.27.184.82/">
+        <fileTransfer host="119.27.184.82" port="22" accessType="SFTP" password="dff9dfdedfd8dfc5dfc4dfcddf84df9bdf93df93df99df80" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
