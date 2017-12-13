@@ -1,13 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2017/5/8
- * Time: 14:38
- */
 
 namespace Home\Controller;
-use Think\Cache\Driver\Redis;
+//use Think\Cache\Driver\Redis;
 use Think\Controller;
 
 class BaseController extends Controller
@@ -18,6 +12,8 @@ class BaseController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->appId = C('AppID');
         $this->appSecret = C('appsecret');
         $this->accessToken = $this->getAccessToken();

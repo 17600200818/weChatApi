@@ -1,7 +1,6 @@
 <?php
 namespace Home\Controller;
-use Think\Cache\Driver\Redis;
-use Think\Controller;
+
 class OptController extends BaseController {
     public function getAccessToken()
     {
