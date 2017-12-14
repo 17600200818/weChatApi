@@ -26,7 +26,7 @@ class IndexController extends BaseController {
     {
         switch ($data->MsgType) {
             case 'text':
-                $this->sendMsgToUser($data, $data->Content);
+                $this->returnMsgToUser($data, $data->Content);
                 break;
             case 'event':
                 switch ($data->Event) {
@@ -36,11 +36,11 @@ class IndexController extends BaseController {
                         break;
 
                     case 'subscribe':
-                        $this->sendMsgToUser($data, '来啦');
+                        $this->returnMsgToUser($data, '来啦');
                         break;
 
                     case 'unsubscribe':
-                        $this->sendMsgToUser($data, '滚吧');
+                        $this->returnMsgToUser($data, '滚吧');
                         break;
                 }
 
@@ -58,10 +58,11 @@ class IndexController extends BaseController {
 //        echo $xml;
     }
 
-    public function sendMsgToUser($data, $msg)
+    public function returnMsgToUser($data, $msg)
     {
         $xml =  "<xml> <ToUserName><![CDATA[$data->FromUserName]]></ToUserName> <FromUserName><![CDATA[$data->ToUserName]]></FromUserName> <CreateTime>".time()."</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[$msg]]></Content> </xml>";
 
         echo $xml;
     }
+
 }

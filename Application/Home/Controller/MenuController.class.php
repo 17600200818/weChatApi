@@ -23,7 +23,6 @@ class MenuController extends BaseController {
 //                )
 //            )
 //        );
-
         $menu = array(
             'button' => array(
                 array(
@@ -82,7 +81,7 @@ class MenuController extends BaseController {
                         array(
                             'type' => 'view',
                             'name' => '搜索',
-                            'url' => 'http://119.27.184.82/shop'
+                            'url' => 'http://119.27.184.82/user/getcode'
                         )
 //                        array(
 //                            'type' => 'media_id',

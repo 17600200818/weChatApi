@@ -17,14 +17,7 @@ class BaseController extends Controller
         $this->appId = C('AppID');
         $this->appSecret = C('appsecret');
         $this->accessToken = $this->getAccessToken();
-    }
-
-    public function getAccessToken()
-    {
-        $redis = new \Redis();
-        $redis->connect('127.0.0.1',6379);
-        $accessToken = $redis->get('access_token');
-        return $accessToken;
+        $this->jsapiTicket = $this->getJsapiTickt();
     }
 
     public function curlGet($url)
@@ -86,5 +79,72 @@ class BaseController extends Controller
         }
         $xml.="</xml>";
         return $xml;
+    }
+
+    function randomStr( $length = 8 ) {
+        // 密码字符集，可任意添加你需要的字符
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $noUsedStr = '!@#$%^&*()-_ []{}<>~`+=,.;:/?|';
+        $password = '';
+        for ( $i = 0; $i < $length; $i++ )
+        {
+            // 这里提供两种字符获取方式
+            // 第一种是使用 substr 截取$chars中的任意一位字符；
+            // 第二种是取字符数组 $chars 的任意元素
+            // $password .= substr($chars, mt_rand(0, strlen($chars) – 1), 1);
+            $password .= $chars[ mt_rand(0, strlen($chars) - 1) ];
+        }
+        return $password;
+    }
+
+    public function getAccessToken()
+    {
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1',6379);
+        $accessToken = $redis->get('access_token');
+        return $accessToken;
+    }
+
+    public function getJsapiTickt()
+    {
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1',6379);
+        $jsapiTicket = $redis->get('jsapi_ticket');
+        return $jsapiTicket;
+    }
+
+    public function getSignature($url)
+    {
+        $signArr = array(
+            'noncestr' => $this->randomStr(),
+            'jsapi_ticket' => $this->jsapiTicket,
+            'timestamp' => time(),
+            'url' => $url
+        );
+        ksort($signArr);
+
+        $signStr = '';
+        $i = '';
+        foreach ($signArr as $key => $value) {
+            $signStr .= $i.$key.'='.$value;
+            $i = '&';
+        }
+
+        $signArr['signStr'] = $signStr;
+        $signArr['signature_bak'] = sha1($signStr);
+        $signArr['signature'] = sha1("jsapi_ticket=".$signArr['jsapi_ticket']."&noncestr=".$signArr['noncestr']."&timestamp=".$signArr['timestamp']."&url=$url");
+
+        return $signArr;
+    }
+
+    public function getJweixinConfig()
+    {
+        $url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"];
+        $urlArr = explode('#', $url);
+        $signArr = $this->getSignature($urlArr[0]);
+//        $this->echoPre($signArr);
+
+        $this->assign('signArr', $signArr);
+        $this->assign('appid', $this->appId);
     }
 }
