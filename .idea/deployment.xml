@@ -5,7 +5,7 @@
       <paths name="thinkapi">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/wwwroot/thinkapi" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/wwwroot/easywechat" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

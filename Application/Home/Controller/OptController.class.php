@@ -34,4 +34,9 @@ class OptController extends BaseController {
         echo "jsapi_ticket: $ticket";
     }
 
+    public function phpinfo()
+    {
+        phpinfo();
+    }
+
 }
